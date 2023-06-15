@@ -69,8 +69,10 @@ void installMod(const std::string &modName) {
         std::filesystem::path destination = "extracted/files/" / relPath;
         if (std::filesystem::exists(destination)) {
           std::filesystem::path backupDest = "backup/" / relPath;
-          std::filesystem::create_directories(backupDest.parent_path());
-          std::filesystem::rename(destination, backupDest);
+          if(!std::filesystem::exists(backupDest)) {  // Check if file already exists in backup
+            std::filesystem::create_directories(backupDest.parent_path());
+            std::filesystem::rename(destination, backupDest);
+          }
         }
         std::filesystem::create_directories(destination.parent_path());
         std::filesystem::copy(filePath, destination);
@@ -80,6 +82,7 @@ void installMod(const std::string &modName) {
 
   std::cout << "Installed " << modName << "\n";
 }
+
 
 void uninstallAllMods() {
   std::cout << "Uninstalling all mods...\n";
