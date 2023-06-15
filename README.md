@@ -8,6 +8,7 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 2. **Backup**: Backup your original game files before mod installation to ensure that you can always return to the original game.
 3. **Mod Uninstallation**: Remove all mods and restore the game to its original state.
 4. **Compiling Game ROM**: Option to compile your game ROM after mod installation.
+5. Comes with the SPM Hard Mode Mod as an example of what the mods folder should look like
 
 ## How to Use
 
