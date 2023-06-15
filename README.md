@@ -26,4 +26,4 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 5. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
 6. If you are finished and want to quit the application, enter `0` and press `Enter`. The program will then ask you if you want to compile your game rom. If you want to do this, enter `yes` and press `Enter`.
 
-**Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods.
+**Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods. Furthermore, there is currently very limited support for multiple rel mods, assume that you can only have one rel mod installed unless the mod maker says specifically that it can be installed with other rel mods.
