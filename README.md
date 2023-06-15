@@ -12,7 +12,7 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 ## How to Use
 
 ### Prerequisites
-
+- Please make sure that you have wimms iso tools installed, specifically wit
 - Make sure you have the game Super Paper Mario in `.iso` or `.wbfs` format in the same directory as the Mod Manager.
 - All mods should be placed within a directory named `mods`, and each mod should be in its own folder within the `mods` directory.
 - Each mod directory must contain a `modinfo.ini` file. The first line of this file should be `modname=Your Mod Name`. Usually this is provided by the mod creator, but if not then you will have to make it yourself
