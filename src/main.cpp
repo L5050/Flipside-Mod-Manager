@@ -75,13 +75,14 @@ void installMod(const std::string &modName) {
           }
         }
         std::filesystem::create_directories(destination.parent_path());
-        std::filesystem::copy(filePath, destination);
+        std::filesystem::copy(filePath, destination, std::filesystem::copy_options::overwrite_existing);
       }
     }
   }
 
   std::cout << "Installed " << modName << "\n";
 }
+
 
 
 void uninstallAllMods() {
@@ -111,6 +112,38 @@ void uninstallAllMods() {
 }
 
 
+void uninstallMod(const std::string &modName) {
+  std::cout << "Uninstalling " << modName << "...\n";
+
+  std::filesystem::path backupPath("backup");
+  std::filesystem::path extractedPath("extracted/files");
+  std::filesystem::path modPath = modPaths[modName];
+  std::filesystem::path modFolderPath = extractedPath / "mod";
+
+  if (std::filesystem::exists(backupPath)) {
+    for (const auto &entry : std::filesystem::recursive_directory_iterator(modPath)) {
+      if (entry.is_regular_file()) {
+        std::filesystem::path filePath = entry.path();
+        std::filesystem::path relPath = std::filesystem::relative(filePath, modPath);
+        std::filesystem::path backupDest = backupPath / relPath;
+        if (std::filesystem::exists(backupDest)) {
+          std::filesystem::path destination = extractedPath / relPath;
+          // Skip if destination is within modFolderPath
+          if (destination.string().find(modFolderPath.string()) != 0) {
+            std::filesystem::copy(backupDest, destination, std::filesystem::copy_options::overwrite_existing);
+          }
+        }
+      }
+    }
+    std::cout << "Mod " << modName << " uninstalled, original files restored.\n";
+    if (std::filesystem::exists(modFolderPath)) {
+      std::filesystem::remove_all(modFolderPath);
+    }
+  } else {
+    std::cout << "Backup folder doesn't exist, nothing to restore.\n";
+  }
+}
+
 int main() {
   bool extracted = checkExtracted();
 
@@ -130,7 +163,7 @@ int main() {
       for (const auto & mod: mods) {
         std::cout << mod.first << ": " << mod.second << "\n";
       }
-      std::cout << "Enter the number of the mod to install, -1 to uninstall all mods, or 0 to quit: ";
+      std::cout << "Enter the number of the mod to install, -1 to uninstall all mods, -2 followed by the mod number to uninstall a single mod, or 0 to quit: ";
       int choice;
       std::cin >> choice;
 
@@ -148,6 +181,14 @@ int main() {
         break;
       } else if (choice == -1) {
         uninstallAllMods();
+      } else if (choice == -2) {
+        std::cout << "Enter the number of the mod to uninstall: ";
+        std::cin >> choice;
+        if (mods.find(choice) != mods.end()) {
+          uninstallMod(mods[choice]);
+        } else {
+          std::cout << "Invalid mod number.\n";
+        }
       } else if (mods.find(choice) != mods.end()) {
         installMod(mods[choice]);
       } else {
