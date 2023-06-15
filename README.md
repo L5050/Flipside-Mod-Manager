@@ -17,6 +17,7 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 - Make sure you have the game Super Paper Mario in `.iso` or `.wbfs` format in the same directory as the Mod Manager.
 - All mods should be placed within a directory named `mods`, and each mod should be in its own folder within the `mods` directory.
 - Each mod directory must contain a `modinfo.ini` file. The first line of this file should be `modname=Your Mod Name`. Usually this is provided by the mod creator, but if not then you will have to make it yourself
+- Any rel mods will require you to install a gecko code to load the rel file. If the mod creator did not provide you with one then get the one for your version of SPM [here](https://github.com/SeekyCt/spm-rel-loader/tree/master/spm-rel-loader/loader)
 
 ### Usage
 
@@ -27,4 +28,4 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 5. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
 6. If you are finished and want to quit the application, enter `0` and press `Enter`. The program will then ask you if you want to compile your game rom. If you want to do this, enter `yes` and press `Enter`.
 
-**Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods. Furthermore, there is currently very limited support for multiple rel mods, assume that you can only have one rel mod installed unless the mod maker says specifically that it can be installed with other rel mods.
+**Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods: it is highly recommended to move the original game rom out of the folder once it has been extracted as a failsafe way to get back to vanilla. Furthermore, there is currently very limited support for multiple rel mods, assume that you can only have one rel mod installed unless the mod maker says specifically that it can be installed with other rel mods.
