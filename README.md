@@ -21,7 +21,7 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 
 ### Usage
 
-1. Run the Flipside-Mod-Manager application.
+1. Run the Mod-Manager executible.
 2. If your game is not yet extracted, the tool will automatically extract it from `spm.iso` or `spm.wbfs` that it finds in the directory.
 3. You will see a list of available mods to install. Each mod will be numbered.
 4. To install a mod, simply enter the corresponding number and press `Enter`.
