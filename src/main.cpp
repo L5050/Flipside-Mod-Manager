@@ -7,6 +7,17 @@
 
 std::map < std::string, std::string > modPaths;
 
+std::filesystem::path getFilesPath() {
+  std::filesystem::path dataPath("extracted/DATA/files");
+  std::filesystem::path defaultPath("extracted/files");
+
+  if (std::filesystem::exists(dataPath)) {
+    return dataPath;
+  } else {
+    return defaultPath;
+  }
+}
+
 bool checkExtracted() {
   std::filesystem::path extractedPath("extracted");
   std::filesystem::path isoPath("spm.iso");
@@ -55,6 +66,8 @@ void installMod(const std::string &modName) {
   std::cout << "Installing " << modName << "...\n";
 
   std::filesystem::path backupPath("backup");
+  std::filesystem::path extractedPath = getFilesPath();
+
   if (!std::filesystem::exists(backupPath)) {
     std::filesystem::create_directory(backupPath);
   }
@@ -66,10 +79,10 @@ void installMod(const std::string &modName) {
       std::filesystem::path filePath = entry.path();
       if (filePath.filename() != "modinfo.ini") {
         std::filesystem::path relPath = std::filesystem::relative(filePath, modPath);
-        std::filesystem::path destination = "extracted/files/" / relPath;
+        std::filesystem::path destination = extractedPath / relPath;
         if (std::filesystem::exists(destination)) {
-          std::filesystem::path backupDest = "backup/" / relPath;
-          if(!std::filesystem::exists(backupDest)) {  // Check if file already exists in backup
+          std::filesystem::path backupDest = backupPath / relPath;
+          if (!std::filesystem::exists(backupDest)) {  // Check if file already exists in backup
             std::filesystem::create_directories(backupDest.parent_path());
             std::filesystem::rename(destination, backupDest);
           }
@@ -84,11 +97,10 @@ void installMod(const std::string &modName) {
 }
 
 
-
 void uninstallAllMods() {
   std::cout << "Uninstalling all mods...\n";
   std::filesystem::path backupPath("backup");
-  std::filesystem::path extractedPath("extracted/files");
+  std::filesystem::path extractedPath = getFilesPath();
 
   if (std::filesystem::exists(backupPath)) {
     for (const auto & entry: std::filesystem::recursive_directory_iterator(backupPath)) {
@@ -116,7 +128,7 @@ void uninstallMod(const std::string &modName) {
   std::cout << "Uninstalling " << modName << "...\n";
 
   std::filesystem::path backupPath("backup");
-  std::filesystem::path extractedPath("extracted/files");
+  std::filesystem::path extractedPath = getFilesPath();
   std::filesystem::path modPath = modPaths[modName];
   std::filesystem::path modFolderPath = extractedPath / "mod";
 
