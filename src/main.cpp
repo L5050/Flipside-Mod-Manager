@@ -7,6 +7,33 @@
 
 std::map < std::string, std::string > modPaths;
 
+std::string readConfigFile() {
+  std::string line;
+  std::ifstream config("config.ini");
+  if (config.is_open()) {
+    std::getline(config, line);
+    auto pos = line.find('=');
+    if (pos != std::string::npos) {
+      return line.substr(pos + 1);
+    }
+    config.close();
+  } else {
+    std::cout << "Unable to open config.ini\n";
+  }
+  return "";
+}
+std::string gameVersion = readConfigFile();
+
+void writeConfigFile(const std::string & version) {
+  std::ofstream config("config.ini");
+  if (config.is_open()) {
+    config << "version=" << version << "\n";
+    config.close();
+  } else {
+    std::cerr << "Unable to create config.ini\n";
+  }
+}
+
 std::filesystem::path getFilesPath() {
   std::filesystem::path dataPath("extracted/DATA/files");
   std::filesystem::path defaultPath("extracted/files");
@@ -46,7 +73,12 @@ bool checkExtracted() {
   return true;
 }
 
-std::string getModName(const std::string & modFolder) {
+std::string getModName(const std::string & modFolder, const std::string & gameVersion) {
+  // Check for the game version folder before considering the mod valid
+  if (!std::filesystem::exists(modFolder + "/" + gameVersion)) {
+    return "";
+  }
+
   std::string line;
   std::ifstream modinfo(modFolder + "/modinfo.ini");
   if (modinfo.is_open()) {
@@ -157,18 +189,37 @@ void uninstallMod(const std::string &modName) {
 }
 
 int main() {
-  bool extracted = checkExtracted();
+  if (gameVersion.empty()) {
+  std::cout << "Could not determine game version. Would you like to enter it manually? (yes/no): ";
+  std::string response;
+  std::cin >> response;
+  if (response == "yes" || response == "Yes") {
+    std::cout << "Please reopen Flipside Mod Manager after choosing your SPM version";
+    std::cout << "Examples of valid versions include US2, US0, JP0, EU0\n";
+    std::cout << "Please enter your SPM version: ";
+    std::cin >> gameVersion;
+    writeConfigFile(gameVersion);
 
-  if (extracted == true) {
-    std::map < int, std::string > mods;
-    int modIndex = 1;
+  } else {
+    std::cout << "Exiting.\n";
+    return 1;
+  }
+}
 
-    for (const auto & entry: std::filesystem::directory_iterator("./mods")) {
-      std::string modName = getModName(entry.path());
-      mods[modIndex] = modName;
-      modPaths[modName] = entry.path();
-      modIndex++;
-    }
+    bool extracted = checkExtracted();
+
+    if (extracted == true) {
+      std::map<int, std::string> mods;
+      int modIndex = 1;
+
+      for (const auto &entry: std::filesystem::directory_iterator("./mods")) {
+        std::string modName = getModName(entry.path(), gameVersion);  // Pass game version
+        if (!modName.empty()) {  // Only add the mod if the game version folder exists
+          mods[modIndex] = modName;
+          modPaths[modName] = entry.path() / gameVersion;  // Append game version to mod path
+          modIndex++;
+        }
+      }
 
     while (true) {
       std::cout << "\nMOD MANAGER\n\n";
