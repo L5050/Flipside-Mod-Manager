@@ -15,7 +15,7 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 ### Prerequisites
 - Please make sure that you have wimms iso tools installed, specifically wit
 - Please make sure that you have [MSYS2](https://www.msys2.org) installed
-- Make sure you have the game Super Paper Mario in `.iso` or `.wbfs` format in the same directory as the Mod Manager.
+- Make sure you have the game Super Paper Mario in `.iso` or `.wbfs` format in the same directory as the Mod Manager. The manager will look for spm.wbfs or spm.iso
 - All mods should be placed within a directory named `mods`, and each mod should be in its own folder within the `mods` directory.
 - Each mod directory must contain a `modinfo.ini` file. The first line of this file should be `modname=Your Mod Name`. Usually this is provided by the mod creator, but if not then you will have to make it yourself
 - Any rel mods will require you to install a gecko code to load the rel file. If the mod creator did not provide you with one then get the one for your version of SPM [here](https://github.com/SeekyCt/spm-rel-loader/tree/master/spm-rel-loader/loader)
