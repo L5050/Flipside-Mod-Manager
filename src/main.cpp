@@ -56,14 +56,14 @@ bool checkExtracted() {
   } else if (filesystem::exists(isoPath)) {
     cout << "Extracting from spm.iso...\n";
     int result = system("wit x spm.iso extracted");
-    if (result == -1) {
+    if (result != 0) {
       cerr << "Error occurred during extraction from spm.iso\n";
       return false;
     }
   } else if (filesystem::exists(wbfsPath)) {
     cout << "Extracting from spm.wbfs...\n";
     int result = system("wit x spm.wbfs extracted");
-    if (result == -1) {
+    if (result != 0) {
       cerr << "Error occurred during extraction from spm.wbfs\n";
       return false;
     }
@@ -126,8 +126,12 @@ void installMod(const string & modName) {
       }
     }
   }
-
+  string responsee;
   cout << "Installed " << modName << "\n";
+  cout << "Press any input to continue\n";
+  cin >>  responsee;
+  system("clear");
+
 }
 
 void uninstallAllMods() {
@@ -154,6 +158,10 @@ void uninstallAllMods() {
   if (filesystem::exists(modFolderPath)) {
     filesystem::remove_all(modFolderPath);
   }
+  string responsee;
+  cout << "Press any input to continue\n";
+  cin >>  responsee;
+  system("clear");
 }
 
 void uninstallMod(const string & modName) {
@@ -186,6 +194,10 @@ void uninstallMod(const string & modName) {
   } else {
     cout << "Backup folder doesn't exist, nothing to restore.\n";
   }
+  string responsee;
+  cout << "Press any input to continue\n";
+  cin >>  responsee;
+  system("clear");
 }
 
 int main() {
@@ -236,10 +248,12 @@ int main() {
         cin >> compileResponse;
         if (compileResponse == "yes" || compileResponse == "Yes") {
           cout << "Compiling your game rom...\n";
-          int result = system("wit copy --align-files extracted spm.wbfs");
-          if (result == -1) {
+          int result = system("wit copy --align-files extracted patched.wbfs");
+          if (result != 0) {
             cerr << "Error occurred during compiling of the game rom\n";
           }
+          cout << "Press any input to exit\n";
+          cin >>  compileResponse;
         }
         break;
       } else if (choice == -1) {
