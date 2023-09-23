@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,6 +7,7 @@
 #include <map>
 using namespace std;
 
+namespace fs = std::filesystem;
 map < string, string > modPaths;
 
 string readConfigFile() {
@@ -36,8 +38,8 @@ void writeConfigFile(const string & version) {
 }
 
 filesystem::path getFilesPath() {
-  filesystem::path dataPath("extracted/DATA/files");
-  filesystem::path defaultPath("extracted/files");
+  fs::path dataPath("extracted/DATA/files");
+  fs::path defaultPath("extracted/files");
 
   if (filesystem::exists(dataPath)) {
     return dataPath;
@@ -46,32 +48,64 @@ filesystem::path getFilesPath() {
   }
 }
 
-bool checkExtracted() {
-  filesystem::path extractedPath("extracted");
-  filesystem::path isoPath("spm.iso");
-  filesystem::path wbfsPath("spm.wbfs");
+bool checkExtracted(int argc, char* argv[]) {
+    fs::path extractedPath("extracted");
+    fs::path isoPath("spm.iso");
+    fs::path wbfsPath("spm.wbfs");
 
-  if (filesystem::exists(extractedPath)) {
-    cout << "The extracted folder exists, reading contents...\n";
-  } else if (filesystem::exists(isoPath)) {
-    cout << "Extracting from spm.iso...\n";
-    int result = system("wit x spm.iso extracted");
-    if (result != 0) {
-      cerr << "Error occurred during extraction from spm.iso\n";
-      return false;
-    }
-  } else if (filesystem::exists(wbfsPath)) {
-    cout << "Extracting from spm.wbfs...\n";
-    int result = system("wit x spm.wbfs extracted");
-    if (result != 0) {
-      cerr << "Error occurred during extraction from spm.wbfs\n";
-      return false;
-    }
-  } else {
-    cout << "No extracted folder or iso could be found.\n";
-    return false;
-  }
-  return true;
+    if (fs::exists(extractedPath)) {
+        cout << "The extracted folder exists, reading contents...\n";
+        return true;
+    } else if (fs::exists(isoPath)) {
+        cout << "Extracting from spm.iso...\n";
+        int result = system("wit x spm.iso extracted");
+        if (result != 0) {
+            cerr << "Error occurred during extraction from spm.iso\n";
+            return false;
+        } else {
+          return true;
+        }
+    } else if (fs::exists(wbfsPath)) {
+        cout << "Extracting from spm.wbfs...\n";
+        int result = system("wit x spm.wbfs extracted");
+        if (result != 0) {
+            cerr << "Error occurred during extraction from spm.wbfs\n";
+            return false;
+        } else {
+          return true;
+        }
+      } else if (argc > 1) {
+          fs::path argPath(argv[1]);
+          if (fs::exists(argPath) && (argPath.extension() == ".iso" || argPath.extension() == ".wbfs")) {
+              string pathStr = argPath.string();
+              std::replace(pathStr.begin(), pathStr.end(), '\\', '/');
+
+              cout << "Extracting from " << pathStr << "...\n";
+              string command = "wit x " + pathStr + " extracted";
+              int result = system(command.c_str());
+              if (result != 0) {
+                  cerr << "Error occurred during extraction from " << pathStr << '\n';
+                  string responsee;
+                  cout << "Press any input to continue\n";
+                  cin >>  responsee;
+                  return false;
+              } else {
+                return true;
+              }
+          } else {
+              return false;
+          }
+      }
+
+      if (fs::exists(extractedPath)) {
+          return true;
+      } else {
+          cout << "No extracted folder could be found.\n";
+          string response;
+          cout << "Press any input to continue\n";
+          cin >> response;
+          return false;
+      }
 }
 
 string getModName(const string & modFolder,
@@ -200,13 +234,13 @@ void uninstallMod(const string & modName) {
   system("clear");
 }
 
-int main() {
+int main(int argc, char* argv[]) {
   if (gameVersion.empty()) {
     cout << "Could not determine game version. Would you like to enter it manually? (yes/no): ";
     string response;
     cin >> response;
     if (response == "yes" || response == "Yes") {
-      cout << "Please reopen Flipside Mod Manager after choosing your SPM version";
+      cout << "Please reopen Flipside Mod Manager after choosing your SPM version\n";
       cout << "Examples of valid versions include US2, US0, JP0, EU0\n";
       cout << "Please enter your SPM version: ";
       cin >> gameVersion;
@@ -218,7 +252,7 @@ int main() {
     }
   }
 
-  bool extracted = checkExtracted();
+  bool extracted = checkExtracted(argc, argv);
 
   if (extracted == true) {
     map < int, string > mods;

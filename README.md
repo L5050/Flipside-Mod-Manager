@@ -14,8 +14,7 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 
 ### Prerequisites
 - Please make sure that you have wimms iso tools installed, specifically wit
-- Please make sure that you have [MSYS2](https://www.msys2.org) installed
-- Make sure you have the game Super Paper Mario in `.iso` or `.wbfs` format in the same directory as the Mod Manager. The manager will look for spm.wbfs or spm.iso
+- Make sure you have the game Super Paper Mario in `.iso` or `.wbfs` format
 - All mods should be placed within a directory named `mods`, and each mod should be in its own folder within the `mods` directory.
 - Each mod directory must contain a `modinfo.ini` file. The first line of this file should be `modname=Your Mod Name`. Usually this is provided by the mod creator, but if not then you will have to make it yourself
 - Any rel mods will require you to install a gecko code to load the rel file. If the mod creator did not provide you with one then get the one for your version of SPM [here](https://github.com/SeekyCt/spm-rel-loader/tree/master/spm-rel-loader/loader)
@@ -23,10 +22,11 @@ Flipside-Mod-Manager is a simple command-line tool for managing mods for the gam
 ### Usage
 
 1. Run the Mod-Manager executible.
-2. If your game is not yet extracted, the tool will automatically extract it from `spm.iso` or `spm.wbfs` that it finds in the directory.
-3. You will see a list of available mods to install. Each mod will be numbered.
-4. To install a mod, simply enter the corresponding number and press `Enter`.
-5. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
-6. If you are finished and want to quit the application, enter `0` and press `Enter`. The program will then ask you if you want to compile your game rom. If you want to do this, enter `yes` and press `Enter`.
+2. It will ask you for your SPM version, please enter it
+3. You can extract your game files by running your SPM rom with the mod manager before opening it or by putting your game rom in the same directory as the executible and naming it "spm.iso" or "spm.wbfs"
+4. You will see a list of available mods to install. Each mod will be numbered.
+5. To install a mod, enter the corresponding number and press `Enter`.
+6. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
+7. If you are finished and want to quit, enter `0` and press `Enter`. The program will then ask you if you want to compile your game rom. If you want to do this, enter `yes`, then enter any input to exit.
 
 **Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods: it is highly recommended to move the original game rom out of the folder once it has been extracted as a failsafe way to get back to vanilla. Furthermore, there is currently very limited support for multiple rel mods, assume that you can only have one rel mod installed unless the mod maker says specifically that it can be installed with other rel mods.
