@@ -81,7 +81,7 @@ bool checkExtracted(int argc, char* argv[]) {
               std::replace(pathStr.begin(), pathStr.end(), '\\', '/');
 
               cout << "Extracting from " << pathStr << "...\n";
-              string command = "wit x " + pathStr + " extracted";
+              string command = "wit x \"" + pathStr + "\" extracted";
               int result = system(command.c_str());
               if (result != 0) {
                   cerr << "Error occurred during extraction from " << pathStr << '\n';
