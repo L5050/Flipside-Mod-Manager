@@ -7,7 +7,7 @@
 #include <map>
 using namespace std;
 
-namespace fs = std::filesystem;
+namespace fs = filesystem;
 map < string, string > modPaths;
 
 string readConfigFile() {
@@ -78,7 +78,7 @@ bool checkExtracted(int argc, char* argv[]) {
           fs::path argPath(argv[1]);
           if (fs::exists(argPath) && (argPath.extension() == ".iso" || argPath.extension() == ".wbfs")) {
               string pathStr = argPath.string();
-              std::replace(pathStr.begin(), pathStr.end(), '\\', '/');
+              replace(pathStr.begin(), pathStr.end(), '\\', '/');
 
               cout << "Extracting from " << pathStr << "...\n";
               string command = "wit x \"" + pathStr + "\" extracted";
