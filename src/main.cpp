@@ -150,7 +150,7 @@ void installMod(const string & modName) {
         filesystem::path destination = extractedPath / relPath;
         if (filesystem::exists(destination)) {
           filesystem::path backupDest = backupPath / relPath;
-          if (!filesystem::exists(backupDest)) { // Check if file already exists in backup
+          if (!filesystem::exists(backupDest) && filePath.filename() != "mod.rel") { // Check if file already exists in backup, check if its a mod.rel, if either is true then we dont need to backup
             filesystem::create_directories(backupDest.parent_path());
             filesystem::rename(destination, backupDest);
           }
