@@ -48,64 +48,64 @@ filesystem::path getFilesPath() {
   }
 }
 
-bool checkExtracted(int argc, char* argv[]) {
-    fs::path extractedPath("extracted");
-    fs::path isoPath("spm.iso");
-    fs::path wbfsPath("spm.wbfs");
+bool checkExtracted(int argc, char * argv[]) {
+  fs::path extractedPath("extracted");
+  fs::path isoPath("spm.iso");
+  fs::path wbfsPath("spm.wbfs");
 
-    if (fs::exists(extractedPath)) {
-        cout << "The extracted folder exists, reading contents...\n";
-        return true;
-    } else if (fs::exists(isoPath)) {
-        cout << "Extracting from spm.iso...\n";
-        int result = system("wit x spm.iso extracted");
-        if (result != 0) {
-            cerr << "Error occurred during extraction from spm.iso\n";
-            return false;
-        } else {
-          return true;
-        }
-    } else if (fs::exists(wbfsPath)) {
-        cout << "Extracting from spm.wbfs...\n";
-        int result = system("wit x spm.wbfs extracted");
-        if (result != 0) {
-            cerr << "Error occurred during extraction from spm.wbfs\n";
-            return false;
-        } else {
-          return true;
-        }
-      } else if (argc > 1) {
-          fs::path argPath(argv[1]);
-          if (fs::exists(argPath) && (argPath.extension() == ".iso" || argPath.extension() == ".wbfs")) {
-              string pathStr = argPath.string();
-              replace(pathStr.begin(), pathStr.end(), '\\', '/');
+  if (fs::exists(extractedPath)) {
+    cout << "The extracted folder exists, reading contents...\n";
+    return true;
+  } else if (fs::exists(isoPath)) {
+    cout << "Extracting from spm.iso...\n";
+    int result = system("wit x spm.iso extracted");
+    if (result != 0) {
+      cerr << "Error occurred during extraction from spm.iso\n";
+      return false;
+    } else {
+      return true;
+    }
+  } else if (fs::exists(wbfsPath)) {
+    cout << "Extracting from spm.wbfs...\n";
+    int result = system("wit x spm.wbfs extracted");
+    if (result != 0) {
+      cerr << "Error occurred during extraction from spm.wbfs\n";
+      return false;
+    } else {
+      return true;
+    }
+  } else if (argc > 1) {
+    fs::path argPath(argv[1]);
+    if (fs::exists(argPath) && (argPath.extension() == ".iso" || argPath.extension() == ".wbfs")) {
+      string pathStr = argPath.string();
+      replace(pathStr.begin(), pathStr.end(), '\\', '/');
 
-              cout << "Extracting from " << pathStr << "...\n";
-              string command = "wit x \"" + pathStr + "\" extracted";
-              int result = system(command.c_str());
-              if (result != 0) {
-                  cerr << "Error occurred during extraction from " << pathStr << '\n';
-                  string responsee;
-                  cout << "Press any input to continue\n";
-                  cin >>  responsee;
-                  return false;
-              } else {
-                return true;
-              }
-          } else {
-              return false;
-          }
-      }
-
-      if (fs::exists(extractedPath)) {
-          return true;
+      cout << "Extracting from " << pathStr << "...\n";
+      string command = "wit x \"" + pathStr + "\" extracted";
+      int result = system(command.c_str());
+      if (result != 0) {
+        cerr << "Error occurred during extraction from " << pathStr << '\n';
+        string responsee;
+        cout << "Press any input to continue\n";
+        cin >> responsee;
+        return false;
       } else {
-          cout << "No extracted folder could be found.\n";
-          string response;
-          cout << "Press any input to continue\n";
-          cin >> response;
-          return false;
+        return true;
       }
+    } else {
+      return false;
+    }
+  }
+
+  if (fs::exists(extractedPath)) {
+    return true;
+  } else {
+    cout << "No extracted folder could be found.\n";
+    string response;
+    cout << "Press any input to continue\n";
+    cin >> response;
+    return false;
+  }
 }
 
 string getModName(const string & modFolder,
@@ -163,7 +163,7 @@ void installMod(const string & modName) {
   string responsee;
   cout << "Installed " << modName << "\n";
   cout << "Press any input to continue\n";
-  cin >>  responsee;
+  cin >> responsee;
   system("clear");
 
 }
@@ -194,7 +194,7 @@ void uninstallAllMods() {
   }
   string responsee;
   cout << "Press any input to continue\n";
-  cin >>  responsee;
+  cin >> responsee;
   system("clear");
 }
 
@@ -230,11 +230,11 @@ void uninstallMod(const string & modName) {
   }
   string responsee;
   cout << "Press any input to continue\n";
-  cin >>  responsee;
+  cin >> responsee;
   system("clear");
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char * argv[]) {
   if (gameVersion.empty()) {
     cout << "Could not determine game version. Would you like to enter it manually? (yes/no): ";
     string response;
@@ -287,7 +287,7 @@ int main(int argc, char* argv[]) {
             cerr << "Error occurred during compiling of the game rom\n";
           }
           cout << "Press any input to exit\n";
-          cin >>  compileResponse;
+          cin >> compileResponse;
         }
         break;
       } else if (choice == -1) {
