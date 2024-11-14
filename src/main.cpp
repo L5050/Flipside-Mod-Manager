@@ -108,8 +108,7 @@ bool checkExtracted(int argc, char * argv[]) {
   }
 }
 
-string getModName(const string & modFolder,
-  const string & gameVersion) {
+string getModName(const string & modFolder, const string & gameVersion) {
   // Check for the game version folder before considering the mod valid
   if (!filesystem::exists(modFolder + "/" + gameVersion)) {
     return "";
@@ -259,10 +258,10 @@ int main(int argc, char * argv[]) {
     int modIndex = 1;
 
     for (const auto & entry: filesystem::directory_iterator("./mods")) {
-      string modName = getModName(entry.path(), gameVersion); // Pass game version
+      string modName = getModName(entry.path().string(), gameVersion); // Pass game version
       if (!modName.empty()) { // Only add the mod if the game version folder exists
         mods[modIndex] = modName;
-        modPaths[modName] = entry.path() / gameVersion; // Append game version to mod path
+        modPaths[modName] = (entry.path() / gameVersion).string(); // Append game version to mod path
         modIndex++;
       }
     }
@@ -306,6 +305,8 @@ int main(int argc, char * argv[]) {
         cout << "Invalid choice.\n";
       }
     }
+  } else {
+    cout << "\nextracted != true\n\n";
   }
   return 0;
 }
