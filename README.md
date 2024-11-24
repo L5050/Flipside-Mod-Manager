@@ -8,7 +8,7 @@ Flipside-Mod-Manager is a command-line tool for managing mods for the game Super
 2. **Backup**: Backup your original game files before mod installation to ensure that you can always return to the original game.
 3. **Mod Uninstallation**: Remove one or all mods and restore the game to its original state.
 4. **Compiling Game ROM**: Option to compile your game ROM after mod installation.
-5. Comes with the SPM Hard Mode Mod as an example of what the mods folder should look like. Be sure to check out the [installing.md](https://github.com/L5050/SPM-Hard-Mode/blob/master/INSTALLING.md) file for more details
+5. Comes with a mod library including SPM Hard Mode Mod as an example of what the mods folder should look like. Be sure to check out the [installing.md](https://github.com/L5050/SPM-Hard-Mode/blob/master/INSTALLING.md) file for more details on how to enable rel mods.
 
 ## How to Use
 
@@ -28,5 +28,8 @@ Flipside-Mod-Manager is a command-line tool for managing mods for the game Super
 5. To install a mod, enter the corresponding number and press `Enter`.
 6. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
 7. If you are finished and want to quit, enter `0` and press `Enter`. The program will then ask you if you want to compile your game rom. If you want to do this, enter `yes`, then enter any input to exit.
+
+### Credit
+Pitrando and Practice codes are made by [shiken-yme](https://github.com/shiken-yme) and [SeekyCt](https://github.com/SeekyCt) respectively, all other mods in the mod library are made by me.
 
 **Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods: it is highly recommended to move the original game rom out of the folder once it has been extracted as a failsafe way to get back to vanilla. Furthermore, there is currently very limited support for multiple rel mods, assume that you can only have one rel mod installed unless the mod maker says specifically that it can be installed with other rel mods.
