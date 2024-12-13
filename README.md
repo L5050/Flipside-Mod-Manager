@@ -23,7 +23,7 @@ Flipside-Mod-Manager is a command-line tool for managing mods for the game Super
 
 1. Run the Mod-Manager executible.
 2. It will ask you for your SPM version, please enter it
-3. You can extract your game files by running your SPM rom with the mod manager before opening it or by putting your game rom in the same directory as the executible and naming it "spm.iso" or "spm.wbfs"
+3. You can extract your game files by running your SPM rom with the mod manager before opening it (note: windows only) or by putting your game rom in the same directory as the executible and naming it "spm.iso" or "spm.wbfs"
 4. You will see a list of available mods to install. Each mod will be numbered.
 5. To install a mod, enter the corresponding number and press `Enter`.
 6. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
