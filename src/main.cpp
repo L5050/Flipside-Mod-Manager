@@ -86,7 +86,7 @@ bool checkExtracted(int argc, char * argv[]) {
       if (result != 0) {
         cerr << "Error occurred during extraction from " << pathStr << '\n';
         string responsee;
-        cout << "Press any input to continue\n";
+        cout << "Press enter to continue\n";
         cin >> responsee;
         return false;
       } else {
@@ -102,7 +102,7 @@ bool checkExtracted(int argc, char * argv[]) {
   } else {
     cout << "No extracted folder could be found.\n";
     string response;
-    cout << "Press any input to continue\n";
+    cout << "Press enter to continue\n";
     cin >> response;
     return false;
   }
@@ -159,11 +159,8 @@ void installMod(const string & modName) {
       }
     }
   }
-  string responsee;
-  cout << "Installed " << modName << "\n";
-  cout << "Press any input to continue\n";
-  cin >> responsee;
   system("clear");
+  cout << "Installed " << modName << "\n";
 
 }
 
@@ -192,7 +189,7 @@ void uninstallAllMods() {
     filesystem::remove_all(modFolderPath);
   }
   string responsee;
-  cout << "Press any input to continue\n";
+  cout << "Press enter to continue\n";
   cin >> responsee;
   system("clear");
 }
@@ -228,7 +225,7 @@ void uninstallMod(const string & modName) {
     cout << "Backup folder doesn't exist, nothing to restore.\n";
   }
   string responsee;
-  cout << "Press any input to continue\n";
+  cout << "Press enter to continue\n";
   cin >> responsee;
   system("clear");
 }
@@ -271,7 +268,7 @@ int main(int argc, char * argv[]) {
       for (const auto & mod: mods) {
         cout << mod.first << ": " << mod.second << "\n";
       }
-      cout << "Enter the number of the mod to install, -1 to uninstall all mods, -2 followed by the mod number to uninstall a single mod, or 0 to quit: ";
+      cout << "Enter the number of the mod to install, -1 to uninstall all mods, -2 followed by the mod number to uninstall a single mod, or 0 to compile: ";
       int choice;
       cin >> choice;
 
