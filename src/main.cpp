@@ -86,7 +86,7 @@ bool checkExtracted(int argc, char * argv[]) {
       if (result != 0) {
         cerr << "Error occurred during extraction from " << pathStr << '\n';
         string responsee;
-        cout << "Press enter to continue\n";
+        cout << "Enter 0 to exit\n";
         cin >> responsee;
         return false;
       } else {
@@ -102,7 +102,7 @@ bool checkExtracted(int argc, char * argv[]) {
   } else {
     cout << "No extracted folder could be found.\n";
     string response;
-    cout << "Press enter to continue\n";
+    cout << "Enter 0 to exit\n";
     cin >> response;
     return false;
   }
@@ -165,6 +165,7 @@ void installMod(const string & modName) {
 }
 
 void uninstallAllMods() {
+  system("clear");
   cout << "Uninstalling all mods...\n";
   filesystem::path backupPath("backup");
   filesystem::path extractedPath = getFilesPath();
@@ -188,10 +189,6 @@ void uninstallAllMods() {
   if (filesystem::exists(modFolderPath)) {
     filesystem::remove_all(modFolderPath);
   }
-  string responsee;
-  cout << "Press enter to continue\n";
-  cin >> responsee;
-  system("clear");
 }
 
 void uninstallMod(const string & modName) {
@@ -217,6 +214,7 @@ void uninstallMod(const string & modName) {
         }
       }
     }
+    system("clear");
     cout << "Mod " << modName << " uninstalled, original files restored.\n";
     if (filesystem::exists(modFolderPath)) {
       filesystem::remove_all(modFolderPath);
@@ -224,10 +222,6 @@ void uninstallMod(const string & modName) {
   } else {
     cout << "Backup folder doesn't exist, nothing to restore.\n";
   }
-  string responsee;
-  cout << "Press enter to continue\n";
-  cin >> responsee;
-  system("clear");
 }
 
 int main(int argc, char * argv[]) {
