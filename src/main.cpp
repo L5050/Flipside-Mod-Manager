@@ -269,6 +269,7 @@ int main(int argc, char * argv[]) {
         cout << mod.first << ": " << mod.second << "\n";
       }
       cout << "Enter the number of the mod to install, -1 to uninstall all mods, -2 followed by the mod number to uninstall a single mod, or 0 to compile: ";
+      // sudo install turtle
       int choice;
       cin >> choice;
 
