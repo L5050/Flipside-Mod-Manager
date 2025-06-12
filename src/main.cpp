@@ -166,7 +166,17 @@ bool checkExtracted(int argc, char *argv[])
     int result = system("wit x spm.iso extracted");
     if (result != 0)
     {
-      cerr << "Error occurred during extraction from spm.iso\n";
+      result = system("wit");
+      if (result != 0)
+      {
+        clear();
+        cerr << "wit is not installed, please install it from the link in the instructions. On windows you will need to restart your computer after installing it.";
+      }
+      else
+      {
+        cerr << "Error occurred during extraction from spm.iso\n";
+      }
+      abort();
       return false;
     }
     else
@@ -180,7 +190,17 @@ bool checkExtracted(int argc, char *argv[])
     int result = system("wit x spm.wbfs extracted");
     if (result != 0)
     {
-      cerr << "Error occurred during extraction from spm.wbfs\n";
+      result = system("wit");
+      if (result != 0)
+      {
+        clear();
+        cerr << "wit is not installed, please install it from the link in the instructions. On windows you will need to restart your computer after installing it.";
+      }
+      else
+      {
+        cerr << "Error occurred during extraction from spm.wbfs\n";
+      }
+      abort();
       return false;
     }
     else
@@ -433,10 +453,18 @@ int main(int argc, char *argv[])
           int result = system("wit copy --align-files extracted patched.wbfs");
           if (result != 0)
           {
-            cerr << "Error occurred during compiling of the game rom\n";
+            result = system("wit");
+            if (result != 0)
+            {
+              clear();
+              cerr << "wit is not installed, please install it from the link in the instructions. On windows you will need to restart your computer after installing it.";
+            }
+            else
+            {
+              cerr << "Error occurred during compiling of the game rom\n";
+            }
           }
-          cout << "Press any input to exit\n";
-          cin >> compileResponse;
+          abort();
         }
         break;
       }
