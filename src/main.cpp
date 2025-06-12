@@ -226,19 +226,12 @@ void uninstallMod(const string & modName) {
 
 int main(int argc, char * argv[]) {
   if (gameVersion.empty()) {
-    cout << "Could not determine game version. Would you like to enter it manually? (yes/no): ";
-    string response;
-    cin >> response;
-    if (response == "yes" || response == "Yes") {
-      cout << "Please reopen Flipside Mod Manager after choosing your SPM version\n";
+    if (true) {
       cout << "Examples of valid versions include US2, US0, JP0, EU0\n";
       cout << "Please enter your SPM version: ";
       cin >> gameVersion;
+      for (auto & c: gameVersion) c = toupper(c);
       writeConfigFile(gameVersion);
-
-    } else {
-      cout << "Exiting.\n";
-      return 1;
     }
   }
 
