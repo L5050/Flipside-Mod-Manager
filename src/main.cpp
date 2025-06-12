@@ -10,6 +10,15 @@ using namespace std;
 namespace fs = filesystem;
 map < string, string > modPaths;
 
+int clear()
+{
+  int ret = system("clear");
+  if (ret != 0) {
+    ret = system("cls");
+  }
+  return ret;
+}
+
 string readConfigFile() {
   string line;
   ifstream config("config.ini");
@@ -159,13 +168,13 @@ void installMod(const string & modName) {
       }
     }
   }
-  system("clear");
+  clear();
   cout << "Installed " << modName << "\n";
 
 }
 
 void uninstallAllMods() {
-  system("clear");
+  clear();
   cout << "Uninstalling all mods...\n";
   filesystem::path backupPath("backup");
   filesystem::path extractedPath = getFilesPath();
@@ -214,7 +223,7 @@ void uninstallMod(const string & modName) {
         }
       }
     }
-    system("clear");
+    clear();
     cout << "Mod " << modName << " uninstalled, original files restored.\n";
     if (filesystem::exists(modFolderPath)) {
       filesystem::remove_all(modFolderPath);
@@ -234,7 +243,7 @@ int main(int argc, char * argv[]) {
       writeConfigFile(gameVersion);
     }
   }
-
+  clear();
   bool extracted = checkExtracted(argc, argv);
 
   if (extracted == true) {
