@@ -57,6 +57,72 @@ filesystem::path getFilesPath() {
   }
 }
 
+filesystem::path getSysPath() {
+  fs::path dataPath("extracted/DATA/sys");
+  fs::path defaultPath("extracted/sys");
+
+  if (filesystem::exists(dataPath)) {
+    return dataPath;
+  } else {
+    return defaultPath;
+  }
+}
+
+void writePatchedFile() {
+  filesystem::path files = getFilesPath();
+  ofstream patched(files.string() + "/" + "patched.ini");
+  if (patched.is_open()) {
+    patched.close();
+  } else {
+    cerr << "Unable to create patched.ini\n";
+  }
+}
+
+bool readPatchFile() {
+  filesystem::path files = getFilesPath();
+  ifstream patched(files.string() + "/" + "patched.ini");
+  if (patched.is_open()) {
+    patched.close();
+  } else {
+    return false;
+  }
+  return true;
+}
+
+void applyDolPatch()
+{
+  if (!readPatchFile())
+  {
+    filesystem::path sys = getSysPath();
+    string wstrtCall = "wstrt patch " + sys.string() + "/main.dol --add-sect ./gct/" + gameVersion + ".gct";
+    int n = wstrtCall.length();
+    char arr[n + 1];
+    arr[n] = '\0';
+    for (int i = 0; i < n; i++)
+      arr[i] = wstrtCall[i];
+    int result = system(arr);
+    if (result == 0)
+    {
+      writePatchedFile();
+    }
+    else
+    {
+      result = system("wstrt");
+      if (result != 0)
+      {
+        cerr << ("wstrt is not installed, please install it from the link in the instructions\n");
+        abort();
+      }
+      else
+      {
+        cout << "Something went wrong when patching the main.dol. Full wstrt command is below\n";
+        cerr << wstrtCall + "\n";
+        abort();
+      }
+    }
+  }
+}
+
 bool checkExtracted(int argc, char * argv[]) {
   fs::path extractedPath("extracted");
   fs::path isoPath("spm.iso");
@@ -168,6 +234,7 @@ void installMod(const string & modName) {
       }
     }
   }
+  applyDolPatch();
   clear();
   cout << "Installed " << modName << "\n";
 
