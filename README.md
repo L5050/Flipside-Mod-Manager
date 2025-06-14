@@ -13,12 +13,12 @@ Flipside-Mod-Manager is a command-line tool for managing mods for Super Paper Ma
 - Make sure you have your legally obtained Super Paper Mario rom in `.iso` or `.wbfs` format
 
 ### Usage
-1. Drag and drop your SPM rom with the mod manager executible (note: Windows only, on Linux just run the path to your rom as a commandline argument) or put your game rom in the same directory as the executible and naming it "spm.iso" or "spm.wbfs", then run the mod manager
+1. Drag and drop your SPM rom the mod manager executable (note: Windows only; on Linux, just run the path to your rom as a commandline argument) OR put your game rom in the same directory as the executable and name it spm.iso or spm.wbfs, then run the mod manager
 2. It will ask you for your SPM version, please enter it
 4. You will see a list of available mods to install. Each mod will be numbered.
 5. To install a mod, enter the corresponding number and press `Enter`.
 6. If you want to uninstall all mods, enter `-1` and press `Enter`. This will restore the game to its original state using the backup.
-7. If you are finished and want to quit, enter `0` and press `Enter`. The program will then ask you if you want to compile your game rom to a patched.wbfs file. If you want to do this, enter `yes`, and the patched.wbfs can be run in dolphin or in a usb loader to play your mods!
+7. If you are finished installing mods, enter 0 and press Enter. The program will then ask you if you want to compile your game rom. If you want to do this, enter yes, and it will generate a new file called patched.wbfs. This is the modded version of your rom; your original rom has not been modified. You can play your mods by running patched.wbfs in Dolphin or on a usb loader!
 
 ### List of mods
 - Practice codes
