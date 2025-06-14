@@ -30,6 +30,6 @@ Flipside-Mod-Manager is a command-line tool for managing mods for Super Paper Ma
 If you were linked to this page by one of these mods, this is their installer. Enjoy!
 
 ### Credit
-PitRando and Practice codes are made by [shiken-yme](https://github.com/shiken-yme) and [SeekyCt](https://github.com/SeekyCt) respectively, all other mods in the mod library are made by me.
+PitRando and Practice codes are made by [shiken-yme](https://github.com/shiken-yme) and [SeekyCt](https://github.com/SeekyCt) respectively, all other mods in the mod library are made by me. Thank you to [shiken-yme](https://github.com/shiken-yme) for helping me write this readme!
 
 **Disclaimer:** Modding can potentially damage game files. Always ensure that you have a backup of your original game files before installing any mods: it is highly recommended to move the original game rom out of the folder once it has been extracted as a failsafe way to get back to vanilla. Furthermore, there is currently very limited support for multiple rel mods, assume that you can only have one rel mod installed at a time unless the mod developer specifically says that it can be installed with other rel mods.
