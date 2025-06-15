@@ -1,6 +1,6 @@
 # Flipside-Mod-Manager
 
-Flipside-Mod-Manager is a command-line tool for managing mods for Super Paper Mario. It can install and uninstall mods,, patch the rom to be capable of loading rel mods, and back up files that are replaced by mods.
+Flipside-Mod-Manager is a command-line tool for managing mods for Super Paper Mario. It can install and uninstall mods, patch the rom to be capable of loading rel mods, and back up files that are replaced by mods.
 
 ## How to Use Flipside Mod Manager
 
