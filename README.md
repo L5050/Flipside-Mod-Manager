@@ -7,8 +7,8 @@ Flipside-Mod-Manager is a command-line tool for managing mods for Super Paper Ma
 - Please read the entire guide first before following any of these steps
 
 ### Prerequisites
-- Please make sure that you have [Wimms ISO Tools](https://wit.wiimm.de/) installed (scroll down to "Download the current stable version")
-- Please make sure that you have [Wiimms SZS Toolset](https://wit.wiimm.de/) aka wstrt installed (scroll down to "Download the current stable version")
+- Please make sure that you have [Wiimms ISO Tools](https://wit.wiimm.de/) installed (scroll down to "Download the current stable version")
+- Please make sure that you have [Wiimms SZS Toolset](https://szs.wiimm.de/) aka wstrt installed (scroll down to "Download the current stable version")
 - Restart your computer after installing these tools (Only necessary on Windows)
 - Make sure you have your legally obtained Super Paper Mario rom in `.iso` or `.wbfs` format
 
