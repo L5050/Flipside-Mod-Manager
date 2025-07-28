@@ -463,8 +463,9 @@ int main(int argc, char *argv[])
             {
               cerr << "Error occurred during compiling of the game rom\n";
             }
+            abort();
           }
-          abort();
+          return 0;
         }
         break;
       }
