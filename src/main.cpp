@@ -9,6 +9,12 @@ using namespace std;
 
 namespace fs = filesystem;
 map<string, string> modPaths;
+/// File path to executable home directory
+fs::path exeDir;
+/// String prefix of executable file path
+string exePrefix;
+/// Locale and revision of image file
+string gameVersion;
 
 int clear()
 {
@@ -23,7 +29,7 @@ int clear()
 string readConfigFile()
 {
   string line;
-  ifstream config("config.ini");
+  ifstream config(exePrefix + "/config.ini");
   if (config.is_open())
   {
     getline(config, line);
@@ -40,11 +46,10 @@ string readConfigFile()
   }
   return "";
 }
-string gameVersion = readConfigFile();
 
 void writeConfigFile(const string &version)
 {
-  ofstream config("config.ini");
+  ofstream config(exePrefix + "/config.ini");
   if (config.is_open())
   {
     config << "version=" << version << "\n";
@@ -58,8 +63,8 @@ void writeConfigFile(const string &version)
 
 filesystem::path getFilesPath()
 {
-  fs::path dataPath("extracted/DATA/files");
-  fs::path defaultPath("extracted/files");
+  fs::path dataPath(exePrefix + "/extracted/DATA/files");
+  fs::path defaultPath(exePrefix + "/extracted/files");
 
   if (filesystem::exists(dataPath))
   {
@@ -73,8 +78,8 @@ filesystem::path getFilesPath()
 
 filesystem::path getSysPath()
 {
-  fs::path dataPath("extracted/DATA/sys");
-  fs::path defaultPath("extracted/sys");
+  fs::path dataPath(exePrefix + "extracted/DATA/sys");
+  fs::path defaultPath(exePrefix + "extracted/sys");
 
   if (filesystem::exists(dataPath))
   {
@@ -120,13 +125,8 @@ void applyDolPatch()
   if (!readPatchFile())
   {
     filesystem::path sys = getSysPath();
-    string wstrtCall = "wstrt patch " + sys.string() + "/main.dol --add-sect ./gct/" + gameVersion + ".gct";
-    int n = wstrtCall.length();
-    char arr[n + 1];
-    arr[n] = '\0';
-    for (int i = 0; i < n; i++)
-      arr[i] = wstrtCall[i];
-    int result = system(arr);
+    string wstrtCall = "wstrt patch " + sys.string() + "/main.dol --add-sect " + exePrefix + "/gct/" + gameVersion + ".gct";
+    int result = system(wstrtCall.c_str());
     if (result == 0)
     {
       writePatchedFile();
@@ -151,9 +151,9 @@ void applyDolPatch()
 
 bool checkExtracted(int argc, char *argv[])
 {
-  fs::path extractedPath("extracted");
-  fs::path isoPath("spm.iso");
-  fs::path wbfsPath("spm.wbfs");
+  fs::path extractedPath(exePrefix + "/extracted");
+  fs::path isoPath(exePrefix + "/spm.iso");
+  fs::path wbfsPath(exePrefix + "/spm.wbfs");
 
   if (fs::exists(extractedPath))
   {
@@ -163,7 +163,8 @@ bool checkExtracted(int argc, char *argv[])
   else if (fs::exists(isoPath))
   {
     cout << "Extracting from spm.iso...\n";
-    int result = system("wit x spm.iso extracted");
+    string witIsoCmd = "wit x " + isoPath.string() + " " + extractedPath.string();
+    int result = system(witIsoCmd.c_str());
     if (result != 0)
     {
       result = system("wit");
@@ -187,7 +188,8 @@ bool checkExtracted(int argc, char *argv[])
   else if (fs::exists(wbfsPath))
   {
     cout << "Extracting from spm.wbfs...\n";
-    int result = system("wit x spm.wbfs extracted");
+    string witWbfsCmd = "wit x " + wbfsPath.string() + " " + extractedPath.string();
+    int result = system(witWbfsCmd.c_str());
     if (result != 0)
     {
       result = system("wit");
@@ -217,14 +219,14 @@ bool checkExtracted(int argc, char *argv[])
       replace(pathStr.begin(), pathStr.end(), '\\', '/');
 
       cout << "Extracting from " << pathStr << "...\n";
-      string command = "wit x \"" + pathStr + "\" extracted";
+      string command = "wit x \"" + pathStr + "\" " + extractedPath.string();
       int result = system(command.c_str());
       if (result != 0)
       {
         cerr << "Error occurred during extraction from " << pathStr << '\n';
-        string responsee;
+        string response;
         cout << "Enter 0 to exit\n";
-        cin >> responsee;
+        cin >> response;
         return false;
       }
       else
@@ -283,7 +285,7 @@ void installMod(const string &modName)
 {
   cout << "Installing " << modName << "...\n";
 
-  filesystem::path backupPath("backup");
+  filesystem::path backupPath(exePrefix + "/backup");
   filesystem::path extractedPath = getFilesPath();
 
   if (!filesystem::exists(backupPath))
@@ -325,7 +327,7 @@ void uninstallAllMods()
 {
   clear();
   cout << "Uninstalling all mods...\n";
-  filesystem::path backupPath("backup");
+  filesystem::path backupPath(exePrefix + "/backup");
   filesystem::path extractedPath = getFilesPath();
 
   if (filesystem::exists(backupPath))
@@ -359,7 +361,7 @@ void uninstallMod(const string &modName)
 {
   cout << "Uninstalling " << modName << "...\n";
 
-  filesystem::path backupPath("backup");
+  filesystem::path backupPath(exePrefix + "/backup");
   filesystem::path extractedPath = getFilesPath();
   filesystem::path modPath = modPaths[modName];
   filesystem::path modFolderPath = extractedPath / "mod";
@@ -399,17 +401,21 @@ void uninstallMod(const string &modName)
 
 int main(int argc, char *argv[])
 {
+  // Set globals
+  exeDir = fs::canonical(fs::path(argv[0])).parent_path();
+  exePrefix = exeDir.string();
+  // readConfigFile uses exePrefix, order matters
+  gameVersion = readConfigFile();
   if (gameVersion.empty())
   {
-    if (true)
+    cout << "Examples of valid versions include US2, US0, JP0, EU0\n";
+    cout << "Please enter your SPM version: ";
+    cin >> gameVersion;
+    for (auto &c : gameVersion)
     {
-      cout << "Examples of valid versions include US2, US0, JP0, EU0\n";
-      cout << "Please enter your SPM version: ";
-      cin >> gameVersion;
-      for (auto &c : gameVersion)
-        c = toupper(c);
-      writeConfigFile(gameVersion);
+      c = toupper(c);
     }
+    writeConfigFile(gameVersion);
   }
   clear();
   bool extracted = checkExtracted(argc, argv);
@@ -419,7 +425,7 @@ int main(int argc, char *argv[])
     map<int, string> mods;
     int modIndex = 1;
 
-    for (const auto &entry : filesystem::directory_iterator("./mods"))
+    for (const auto &entry : filesystem::directory_iterator(fs::path(exePrefix + "/mods")))
     {
       string modName = getModName(entry.path().string(), gameVersion); // Pass game version
       if (!modName.empty())
@@ -450,7 +456,8 @@ int main(int argc, char *argv[])
         if (compileResponse == "yes" || compileResponse == "Yes")
         {
           cout << "Compiling your game rom...\n";
-          int result = system("wit copy --align-files extracted patched.wbfs");
+          string witCpyCmd = "wit copy --align-files " + exePrefix + "/extracted " + exePrefix + "/patched.wbfs";
+          int result = system(witCpyCmd.c_str());
           if (result != 0)
           {
             result = system("wit");
