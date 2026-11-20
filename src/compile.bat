@@ -1,1 +1,0 @@
-clang++ -Wall -std=c++17 -o mod_manager.exe main.cpp
